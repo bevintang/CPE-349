@@ -1,3 +1,31 @@
+/**
+
+   Program: WgtIntScheduler.java
+   Student: Bevin Tang
+   Class:   CPE-349
+   Instructor: Tim Kearns
+
+   Description: Consider a set of jobs that each have a start time, finish time,
+                and weight time. Two jobs are considered compatible if their
+                start and finish times do not interfere with each other's start
+                and finish times. The Weighted Interval Scheduling problem tasks
+                one to find the subset of compatible jobs that yield the most
+                combined weight.
+   
+                WgtIntScheduler proposes a Dynamically Programmed solution
+                to the Weighted Interval Scheduling problem with the function:
+
+                int[] getOptSet(int[] stime, int[] ftime, int[] weight)
+
+                Given an array of start times, finish times, and weight times
+                getOptSet() will return an array of integers (int[])
+                representing the subset of compatible jobs that yield the most
+                combined weight. This array will be sorted in order of
+                increasing job number, and not necessarily the order in which
+                the jobs are taken.
+
+*/
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.lang.Math;
@@ -73,29 +101,33 @@ public class WgtIntScheduler {
    private static int[] traceback(Job[] jobs, int[] compatible, 
                                   int[] optimalWeight){
 
-      ArrayList<Integer> seq = new ArrayList<Integer>(); 
-      int current = jobs.length-1;
-      int weight = 0;
-      int optChain = 0;
-      int optSoFar = 0;
+      // Sequences will vary in length, use an ArrayList to accomodate
+      ArrayList<Integer> seq = new ArrayList<Integer>();
+      int current = jobs.length-1;  // tracks current position in optimal array
+      int weight = 0;               // weight of job at index
+      int optChain = 0;             // total weight of comptible jobs to current
+      int optSoFar = 0;             // optimal local to the current position
 
       while (current > 0){
          weight = jobs[current].getWeight();
          optChain = optimalWeight[compatible[current]];
          optSoFar = optimalWeight[current-1];
 
-         if (weight + optChain > optSoFar){
-            seq.add(jobs[current].getID());
-            current = compatible[current];
+         if (weight + optChain > optSoFar){  // add job number to sequence if
+            seq.add(jobs[current].getID());  // the chain has the optimal weight
+            current = compatible[current];   // set position to next compatible
          }
          else{
-            current--;
+            current--;                       // otherwise, check next in line
          }
             
       }
 
-      int[] optimalSequence = new int[seq.size()];
+      int[] optimalSequence = new int[seq.size()]; // convert sequence to int[]
       int j = 0;
+
+      /* In the ArrayList, the steps are added in reverse order, so we must add
+         these jobs to the optimalSequence array in reverse order */
       for (int i = seq.size()-1; i >= 0; i--){
          optimalSequence[i] = seq.get(j);
          j++;
@@ -132,18 +164,55 @@ public class WgtIntScheduler {
 
       /* (3) Traceback with the optimal weight to find the optimal sequence */
       int[] optimalSequence = traceback(jobs, compatible, optimalWeight);
+
+      /* traceback() returns the array in the order in which they are taken,
+         but the spec requires that the array must be in order by job number */
+      Arrays.sort(optimalSequence);
       return optimalSequence;
    }
 
-   public static void main (String[] args){
-      int[] stime = {4, 3, 2, 10, 7}; 
-      int[] ftime = {7, 10, 6, 13, 9};
-      int[] weight = {6, 6, 5, 2, 8};
-     
-      int[] optimal = getOptSet(stime, ftime, weight);
-      for (int i = 0; i < optimal.length; i++)
-         System.out.print(optimal[i] + " ");
+   /*
+      A private class that represents a Job. Each job includes a start time,
+      finish time, weight, and a job id (this represents the job number). This
+      class implements Comparable so that jobs can be sorted. This sort is used
+      in the algorithm to solve the Weighted Interval Scheduling problem.
+   */
+   private static class Job implements Comparable<Job>{
+      private int stime;
+      private int ftime;
+      private int weight;
+      private int id;
 
-      System.out.println();
-   }
+      public Job(int start, int finish, int w, int jobNum){
+         stime = start;
+         ftime = finish;
+         weight = w;
+         id = jobNum;
+      }
+
+      public int getStime(){
+         return stime;
+      }
+
+      public int getFtime(){
+         return ftime;
+      }
+
+      public int getWeight(){
+         return weight;
+      }
+
+      public int getID(){
+         return id;
+      }
+
+      /* Implementation for use with Arrays.sort() */
+      public int compareTo(Job other){
+         // Ascending Order of finish time
+         return ftime - other.getFtime();
+
+         // Descending Order
+         // return other.getFtime() - ftime;
+       }
+    }
 }

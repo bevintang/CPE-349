@@ -72,13 +72,13 @@ public class RodCutter{
       }  
 
       Scanner fileScanner = new Scanner(input);
-      int caseNumber = Integer.parseInt(fileScanner.nextLine().split(" ")[0]);
+      int caseNumber = Integer.parseInt(fileScanner.nextLine().split("\\s+")[0]);
 
       /* For each case, extract the number of lengths and prices per length */
       for (int i = 1; i <= caseNumber; i++){
          System.out.println("\n\nCase " + i);
-         int length = Integer.parseInt(fileScanner.nextLine().split(" ")[0]);
-         String[] priceValues = fileScanner.nextLine().split(" ");
+         int length = Integer.parseInt(fileScanner.nextLine().split("\\s+")[0]);
+         String[] priceValues = fileScanner.nextLine().split("\\s+");
          int prices[] = new int[length];
 
          /* Transfer string data into integer data */
