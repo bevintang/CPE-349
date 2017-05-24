@@ -1,4 +1,25 @@
 /**
+
+   Description: Given 2 strings, getDistance will return the similarity between
+                them. This similarity is calculate by considering additions,
+                deletions, and matchings respective letters in the strings. The
+                higher the score, the less similar the two strings are. The
+                weights for each difference are as follows:
+
+                     (a) Gap: 2 Points -- either string is missing a letter
+                     (b) Mismatch: 1 Point -- respective characters are unequal
+                     (c) Match: 0 Point -- respective characters are equal
+
+                Additionally, if the print flag was set high upon use,
+                getDistance will print a step-by-step analysis of the cost
+                calculation; for every respective spot in each string,
+                getDistance will display the letters in optimum order as well
+                as their repective costs.
+
+   Student: Bevin Tang
+   Class: CPE-349
+   Professor: Tim Kearns
+
 */
 import java.lang.StringBuilder;
 import java.util.Scanner;
@@ -35,9 +56,9 @@ public class EditDistance {
 
       /* Fill table. For each spot:
          (1) Calculate the cost of previous neighbors:
-            (A) left (costLeft)
-            (B) up (costUp)
-            (C) up-left (costDiag)
+            (a) left (costLeft)
+            (b) up (costUp)
+            (c) up-left (costDiag)
          (2) Assign the minimum of the neighbors to current index
       */
       int costLeft = -1;
@@ -69,6 +90,9 @@ public class EditDistance {
 
    }
 
+   /*
+      Deciphers whether or not two characters match
+   */
    private static int getCost(char c1, char c2) {
       if (c1 == c2)
          return MATCH;
@@ -76,7 +100,9 @@ public class EditDistance {
          return MISMATCH;
    }
 
-   /* Using a filled out table, prints out the sequence-cost output */
+   /* 
+      (TRACEBACK) Using a filled out table, prints out the sequence-cost output
+   */
    private static void printAlignment(String s1, String s2) {
       int i = s1.length();
       int j = s2.length();
@@ -104,10 +130,22 @@ public class EditDistance {
          else if (currentVal - 1 == diag || currentVal == diag) {
             System.out.println(s1.charAt(i-1) + " " + s2.charAt(j-1) + " " +
                                getCost(s1.charAt(i-1), s2.charAt(j-1)));
-            --i;               
-            --j;               
-         }  
+            --i;
+            --j;
+         }
             
+      }
+
+      /* Print any remaining upper neighbors */
+      while (i > 0) {
+         System.out.println(s1.charAt(i-1) + " - " + GAP);
+         --i;
+      }
+
+      /* Print any remaining left neighbors */
+      while (j > 0) {
+         System.out.println("- " + s2.charAt(j-1) + " " + GAP);
+         --j;
       }
    }
 
