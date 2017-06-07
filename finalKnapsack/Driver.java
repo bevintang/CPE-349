@@ -1,4 +1,5 @@
 /**
+
    Description: Tests 4 algorithms that solve 0-1 Knapsack:
                   (1) Enumerate
                   (2) Greedy
@@ -121,6 +122,7 @@ public class Driver {
             Greedy.greedy(items, capacity);
             break;
          case DYNAMIC:
+            Dynamic.dynamic(items, capacity);
             break;
          case BRANCH:
             break;
