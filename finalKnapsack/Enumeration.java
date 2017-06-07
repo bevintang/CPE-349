@@ -70,7 +70,7 @@ public class Enumeration {
       Collections.sort(solution);
 
       /* Print Results */
-      System.out.print("Using Enumeration, the best feasible solution found: ");
+      System.out.print("Using Brute Force, the best feasible solution found: ");
       System.out.printf("Value: %d, Weight: %d\n", bestValue, bestWeight);
       for (int j = 0; j < solution.size(); j++){
          System.out.print(solution.get(j).getIndex() + " ");

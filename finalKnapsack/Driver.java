@@ -118,6 +118,7 @@ public class Driver {
             Enumeration.enumerate(items, capacity);
             break;
          case GREEDY:
+            Greedy.greedy(items, capacity);
             break;
          case DYNAMIC:
             break;
