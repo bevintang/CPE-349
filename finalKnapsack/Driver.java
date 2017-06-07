@@ -9,7 +9,7 @@
                 the knapsack upon completion.
 
      Student: Bevin Tang
-       Class: CSC 349, Section 1
+       Class: CSC 349, Spring 2017
    Professor: Tim Kearns
 
 */
@@ -111,12 +111,11 @@ public class Driver {
       int numItems = getNumItems(fileScanner);
       Item[] items = getItemList(fileScanner, numItems);
       int capacity = fileScanner.nextInt();
-      Item[] solution = new Item[10];
 
       /* Run an algorithm determined by the state value */
       switch (state) {
          case ENUM:
-            solution = Enumeration.enumerate(items, capacity);
+            Enumeration.enumerate(items, capacity);
             break;
          case GREEDY:
             break;
@@ -125,9 +124,7 @@ public class Driver {
          case BRANCH:
             break;
       }
-
-      System.out.println(solution[0].getIndex());
-      System.out.println(solution[1].getIndex());
+      
    }
 }
 

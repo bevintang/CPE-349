@@ -22,6 +22,6 @@ public class Item implements Comparable <Item> {
    }
 
    public int compareTo(Item other) {
-      return index = other.getIndex(); // Ascending order of index number
+      return index - other.getIndex(); // Ascending order of index number
    }
 }
