@@ -125,6 +125,7 @@ public class Driver {
             Dynamic.dynamic(items, capacity);
             break;
          case BRANCH:
+            BranchAndBound.branchBound(items, capacity);
             break;
       }
       
